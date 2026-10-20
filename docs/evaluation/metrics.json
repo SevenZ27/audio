@@ -1,0 +1,837 @@
+{
+  "schemaVersion": 1,
+  "scope": "full frozen export; descriptive, no human labels",
+  "seed": 42,
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Windows",
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.1",
+      "scikit-learn": "1.9.1",
+      "scipy": "1.18.1"
+    }
+  },
+  "catalog": {
+    "measurements": 1510,
+    "modelRigPairs": 1230,
+    "distinctBaseNames": 1140
+  },
+  "inputHashes": {
+    "public/data/curves/hypethesonics-inear.json": "12b5e5ec9295373b5c94b6997c6cc893396e09a09775cb0ae9f5d459c88db64f",
+    "public/data/curves/oratory1990-overear.json": "9c109da6f5e08da7ad04a4442057245a2991883d0949ef5ea9d340f9cd0f1f86",
+    "public/data/curves/rtings-overear.json": "a7e09b0afb3f10ccc1987b6a347828e1a961cbaefb83befbdf4f0835dfa7ab59",
+    "public/data/curves/superreview-inear.json": "3a4e54c9aac52f88997427e045e7ebc0ebf92ce85f4d23a9689565fc6837469c",
+    "public/data/map.json": "aeb08a86e72108d16e02f188eb86fa290bfdba804f344e401820f2a9b2ef2ad9",
+    "public/data/meta.json": "803cd69a95462daa4884a200e138d7dcae6aed029b4b73c09c1a8e52a15e4efc",
+    "public/data/neighbors.json": "444b4773513d41ff51dbd77f158cf9c6ca26be330629a17c93b0123548ba7c46",
+    "public/data/prices.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "public/data/products.json": "33c22fae0e5bdbce005c855a812d1912a6d36a3c4450f62959518cdebe26b4e7"
+  },
+  "codeHashes": {
+    "pipeline/evaluate.py": "3f88c86b3bd7c5400268e2ed5413d685088561816c80d9c9355adfac5a60215d",
+    "pipeline/core.py": "48a40a42a5983f40e3f15284763fefa1ca07116cb01874de2955f9f3aaecb9dc",
+    "pipeline/catalog.py": "e988fd467b7e4ecad3c0e21aee0aa48d17d88fd01005b12deb95b84ba05eebac"
+  },
+  "structuralChecks": "passed",
+  "rigs": {
+    "superreview-inear": {
+      "measurements": 714,
+      "modelRigPairs": 488,
+      "missingPreferenceScores": 714,
+      "fractionCellsClipped": 0.0019054133281219464,
+      "measurementsWithClipping": 24,
+      "identicalQuantizedCurveGroups": [
+        [
+          "superreview-inear~fiio-fd7-balanced-nozzle",
+          "superreview-inear~fiio-fd7-balanced"
+        ],
+        [
+          "superreview-inear~mangird-tea",
+          "superreview-inear~xenns-mangird-tea"
+        ]
+      ],
+      "roundedBoundaryTiesAt5": 98,
+      "maxExportDistanceDeltaDb": 0.019508442408499693,
+      "exportDistanceWithinQuantizationBound": true,
+      "methods": {
+        "recomputed_export": {
+          "overlapAt5": {
+            "mean": 0.9882352941176471,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 714
+          },
+          "orderedAgreement": 0.8333333333333334,
+          "unclippedRmsDb": {
+            "mean": 1.261352823882083,
+            "p10": 0.7693416115950116,
+            "median": 1.1481475798140344,
+            "n": 714
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.9877049180327869,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 488
+          }
+        },
+        "random_seed42": {
+          "overlapAt5": {
+            "mean": 0.00896358543417367,
+            "p10": 0.0,
+            "median": 0.0,
+            "n": 714
+          },
+          "orderedAgreement": 0.0,
+          "unclippedRmsDb": {
+            "mean": 3.1943717979794615,
+            "p10": 2.1836571990451565,
+            "median": 2.969795371349968,
+            "n": 714
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.010655737704918036,
+            "p10": 0.0,
+            "median": 0.0,
+            "n": 488
+          }
+        },
+        "six_band_means": {
+          "overlapAt5": {
+            "mean": 0.484873949579832,
+            "p10": 0.2,
+            "median": 0.4,
+            "n": 714
+          },
+          "orderedAgreement": 0.0,
+          "unclippedRmsDb": {
+            "mean": 1.4486985870012303,
+            "p10": 0.9131973213461813,
+            "median": 1.3537648817126637,
+            "n": 714
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.4885245901639344,
+            "p10": 0.2,
+            "median": 0.4,
+            "n": 488
+          }
+        },
+        "no_clipping": {
+          "overlapAt5": {
+            "mean": 0.9837535014005604,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 714
+          },
+          "orderedAgreement": 0.8123249299719888,
+          "unclippedRmsDb": {
+            "mean": 1.2601985728736356,
+            "p10": 0.7693416115950116,
+            "median": 1.1481475798140344,
+            "n": 714
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.9868852459016394,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 488
+          }
+        },
+        "clip_6db": {
+          "overlapAt5": {
+            "mean": 0.8689075630252101,
+            "p10": 0.6,
+            "median": 1.0,
+            "n": 714
+          },
+          "orderedAgreement": 0.32492997198879553,
+          "unclippedRmsDb": {
+            "mean": 1.2968673883570696,
+            "p10": 0.7693416115950116,
+            "median": 1.1627604289190665,
+            "n": 714
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.8778688524590165,
+            "p10": 0.6,
+            "median": 1.0,
+            "n": 488
+          }
+        },
+        "clip_18db": {
+          "overlapAt5": {
+            "mean": 0.9845938375350141,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 714
+          },
+          "orderedAgreement": 0.8123249299719888,
+          "unclippedRmsDb": {
+            "mean": 1.2605166837113957,
+            "p10": 0.7693416115950116,
+            "median": 1.1481475798140344,
+            "n": 714
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.9868852459016394,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 488
+          }
+        },
+        "align_500_2000": {
+          "overlapAt5": {
+            "mean": 0.8128851540616248,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 714
+          },
+          "orderedAgreement": 0.09243697478991597,
+          "unclippedRmsDb": {
+            "mean": 1.2775777217255915,
+            "p10": 0.7726555167879172,
+            "median": 1.1646279176684642,
+            "n": 714
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.8106557377049181,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 488
+          }
+        },
+        "bass_weight_2x": {
+          "overlapAt5": {
+            "mean": 0.803641456582633,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 714
+          },
+          "orderedAgreement": 0.037815126050420166,
+          "unclippedRmsDb": {
+            "mean": 1.277154631253332,
+            "p10": 0.7774029327277755,
+            "median": 1.1598105991970034,
+            "n": 714
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.8073770491803278,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 488
+          }
+        }
+      },
+      "variantOverlapAt5": {
+        "mean": 0.388495575221239,
+        "p10": 0.0,
+        "median": 0.4,
+        "n": 226
+      },
+      "map": {
+        "overlapAt5": {
+          "mean": 0.20450819672131149,
+          "p10": 0.0,
+          "median": 0.2,
+          "n": 488
+        },
+        "trustworthinessAt5": 0.8683452868852459
+      }
+    },
+    "rtings-overear": {
+      "measurements": 383,
+      "modelRigPairs": 381,
+      "missingPreferenceScores": 383,
+      "fractionCellsClipped": 0.015271115428987795,
+      "measurementsWithClipping": 116,
+      "identicalQuantizedCurveGroups": [],
+      "roundedBoundaryTiesAt5": 34,
+      "maxExportDistanceDeltaDb": 0.01693047883501908,
+      "exportDistanceWithinQuantizationBound": true,
+      "methods": {
+        "recomputed_export": {
+          "overlapAt5": {
+            "mean": 0.9926892950391646,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 383
+          },
+          "orderedAgreement": 0.8877284595300261,
+          "unclippedRmsDb": {
+            "mean": 2.2641875012270742,
+            "p10": 1.577378576904033,
+            "median": 2.0481718540068026,
+            "n": 383
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.9926509186351707,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 381
+          }
+        },
+        "random_seed42": {
+          "overlapAt5": {
+            "mean": 0.01514360313315927,
+            "p10": 0.0,
+            "median": 0.0,
+            "n": 383
+          },
+          "orderedAgreement": 0.0,
+          "unclippedRmsDb": {
+            "mean": 4.892159714578576,
+            "p10": 3.533141791935745,
+            "median": 4.53651018267655,
+            "n": 383
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.014698162729658792,
+            "p10": 0.0,
+            "median": 0.0,
+            "n": 381
+          }
+        },
+        "six_band_means": {
+          "overlapAt5": {
+            "mean": 0.48250652741514366,
+            "p10": 0.2,
+            "median": 0.4,
+            "n": 383
+          },
+          "orderedAgreement": 0.0,
+          "unclippedRmsDb": {
+            "mean": 2.5122431991122136,
+            "p10": 1.7864320971875838,
+            "median": 2.3385624322322744,
+            "n": 383
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.48293963254593175,
+            "p10": 0.2,
+            "median": 0.4,
+            "n": 381
+          }
+        },
+        "no_clipping": {
+          "overlapAt5": {
+            "mean": 0.9462140992167101,
+            "p10": 0.8,
+            "median": 1.0,
+            "n": 383
+          },
+          "orderedAgreement": 0.566579634464752,
+          "unclippedRmsDb": {
+            "mean": 2.2466210169377336,
+            "p10": 1.577378576904033,
+            "median": 2.044795027107446,
+            "n": 383
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.9459317585301836,
+            "p10": 0.8,
+            "median": 1.0,
+            "n": 381
+          }
+        },
+        "clip_6db": {
+          "overlapAt5": {
+            "mean": 0.7086161879895561,
+            "p10": 0.4,
+            "median": 0.8,
+            "n": 383
+          },
+          "orderedAgreement": 0.013054830287206266,
+          "unclippedRmsDb": {
+            "mean": 2.4012698969540294,
+            "p10": 1.6159707953554436,
+            "median": 2.1525527355499614,
+            "n": 383
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.7091863517060366,
+            "p10": 0.4,
+            "median": 0.8,
+            "n": 381
+          }
+        },
+        "clip_18db": {
+          "overlapAt5": {
+            "mean": 0.9509138381201045,
+            "p10": 0.8,
+            "median": 1.0,
+            "n": 383
+          },
+          "orderedAgreement": 0.5744125326370757,
+          "unclippedRmsDb": {
+            "mean": 2.253095100705006,
+            "p10": 1.577378576904033,
+            "median": 2.044795027107446,
+            "n": 383
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.9506561679790025,
+            "p10": 0.8,
+            "median": 1.0,
+            "n": 381
+          }
+        },
+        "align_500_2000": {
+          "overlapAt5": {
+            "mean": 0.7906005221932114,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 383
+          },
+          "orderedAgreement": 0.06005221932114883,
+          "unclippedRmsDb": {
+            "mean": 2.304251672319701,
+            "p10": 1.5982615980841073,
+            "median": 2.1016149414094087,
+            "n": 383
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.7910761154855642,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 381
+          }
+        },
+        "bass_weight_2x": {
+          "overlapAt5": {
+            "mean": 0.7900783289817231,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 383
+          },
+          "orderedAgreement": 0.0391644908616188,
+          "unclippedRmsDb": {
+            "mean": 2.2884035099232976,
+            "p10": 1.598101746211584,
+            "median": 2.0747193094315604,
+            "n": 383
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.7900262467191601,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 381
+          }
+        }
+      },
+      "variantOverlapAt5": {
+        "mean": 0.0,
+        "p10": 0.0,
+        "median": 0.0,
+        "n": 2
+      },
+      "map": {
+        "overlapAt5": {
+          "mean": 0.19580052493438319,
+          "p10": 0.0,
+          "median": 0.2,
+          "n": 381
+        },
+        "trustworthinessAt5": 0.8576949329055048
+      }
+    },
+    "hypethesonics-inear": {
+      "measurements": 152,
+      "modelRigPairs": 127,
+      "missingPreferenceScores": 66,
+      "fractionCellsClipped": 0.006961444308445533,
+      "measurementsWithClipping": 15,
+      "identicalQuantizedCurveGroups": [],
+      "roundedBoundaryTiesAt5": 12,
+      "maxExportDistanceDeltaDb": 0.0174496145346148,
+      "exportDistanceWithinQuantizationBound": true,
+      "methods": {
+        "recomputed_export": {
+          "overlapAt5": {
+            "mean": 0.9894736842105262,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 152
+          },
+          "orderedAgreement": 0.8947368421052632,
+          "unclippedRmsDb": {
+            "mean": 2.087172585724497,
+            "p10": 1.386145162503879,
+            "median": 1.8056115675614608,
+            "n": 152
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.9921259842519685,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 127
+          }
+        },
+        "random_seed42": {
+          "overlapAt5": {
+            "mean": 0.028947368421052635,
+            "p10": 0.0,
+            "median": 0.0,
+            "n": 152
+          },
+          "orderedAgreement": 0.0,
+          "unclippedRmsDb": {
+            "mean": 4.334075049445284,
+            "p10": 2.989377862008834,
+            "median": 3.899691671005757,
+            "n": 152
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.03464566929133858,
+            "p10": 0.0,
+            "median": 0.0,
+            "n": 127
+          }
+        },
+        "six_band_means": {
+          "overlapAt5": {
+            "mean": 0.6855263157894737,
+            "p10": 0.4,
+            "median": 0.6,
+            "n": 152
+          },
+          "orderedAgreement": 0.013157894736842105,
+          "unclippedRmsDb": {
+            "mean": 2.181663260002513,
+            "p10": 1.4661003687975294,
+            "median": 1.9435243488505336,
+            "n": 152
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.6881889763779527,
+            "p10": 0.4,
+            "median": 0.6,
+            "n": 127
+          }
+        },
+        "no_clipping": {
+          "overlapAt5": {
+            "mean": 0.976315789473684,
+            "p10": 0.8200000000000003,
+            "median": 1.0,
+            "n": 152
+          },
+          "orderedAgreement": 0.8157894736842105,
+          "unclippedRmsDb": {
+            "mean": 2.0715856341058956,
+            "p10": 1.386145162503879,
+            "median": 1.8056115675614608,
+            "n": 152
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.9779527559055118,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 127
+          }
+        },
+        "clip_6db": {
+          "overlapAt5": {
+            "mean": 0.85,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 152
+          },
+          "orderedAgreement": 0.18421052631578946,
+          "unclippedRmsDb": {
+            "mean": 2.142648137903264,
+            "p10": 1.400301782631067,
+            "median": 1.8127310515404824,
+            "n": 152
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.8425196850393701,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 127
+          }
+        },
+        "clip_18db": {
+          "overlapAt5": {
+            "mean": 0.9828947368421053,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 152
+          },
+          "orderedAgreement": 0.8289473684210527,
+          "unclippedRmsDb": {
+            "mean": 2.0751568274254173,
+            "p10": 1.386145162503879,
+            "median": 1.8056115675614608,
+            "n": 152
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.9858267716535435,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 127
+          }
+        },
+        "align_500_2000": {
+          "overlapAt5": {
+            "mean": 0.8421052631578947,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 152
+          },
+          "orderedAgreement": 0.13815789473684212,
+          "unclippedRmsDb": {
+            "mean": 2.1109036753496766,
+            "p10": 1.398647548322381,
+            "median": 1.8179169135440851,
+            "n": 152
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.8409448818897637,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 127
+          }
+        },
+        "bass_weight_2x": {
+          "overlapAt5": {
+            "mean": 0.8394736842105263,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 152
+          },
+          "orderedAgreement": 0.06578947368421052,
+          "unclippedRmsDb": {
+            "mean": 2.107082251931065,
+            "p10": 1.4101580023069507,
+            "median": 1.8190491082898657,
+            "n": 152
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.8377952755905511,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 127
+          }
+        }
+      },
+      "variantOverlapAt5": {
+        "mean": 0.38400000000000006,
+        "p10": 0.0,
+        "median": 0.4,
+        "n": 25
+      },
+      "map": {
+        "overlapAt5": {
+          "mean": 0.373228346456693,
+          "p10": 0.2,
+          "median": 0.4,
+          "n": 127
+        },
+        "trustworthinessAt5": 0.9012638126116588
+      }
+    },
+    "oratory1990-overear": {
+      "measurements": 261,
+      "modelRigPairs": 234,
+      "missingPreferenceScores": 54,
+      "fractionCellsClipped": 0.010603225519023434,
+      "measurementsWithClipping": 51,
+      "identicalQuantizedCurveGroups": [
+        [
+          "oratory1990-overear~sennheiser-hd-650",
+          "oratory1990-overear~sennheiser-hd-6xx"
+        ]
+      ],
+      "roundedBoundaryTiesAt5": 30,
+      "maxExportDistanceDeltaDb": 0.0178806915609524,
+      "exportDistanceWithinQuantizationBound": true,
+      "methods": {
+        "recomputed_export": {
+          "overlapAt5": {
+            "mean": 0.9885057471264368,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 261
+          },
+          "orderedAgreement": 0.8544061302681992,
+          "unclippedRmsDb": {
+            "mean": 1.84552217394345,
+            "p10": 1.1458637388827924,
+            "median": 1.7889964974768806,
+            "n": 261
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.9897435897435899,
+            "p10": 1.0,
+            "median": 1.0,
+            "n": 234
+          }
+        },
+        "random_seed42": {
+          "overlapAt5": {
+            "mean": 0.02835249042145594,
+            "p10": 0.0,
+            "median": 0.0,
+            "n": 261
+          },
+          "orderedAgreement": 0.0,
+          "unclippedRmsDb": {
+            "mean": 4.176146079795549,
+            "p10": 2.988827921740518,
+            "median": 3.965165501797569,
+            "n": 261
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.0264957264957265,
+            "p10": 0.0,
+            "median": 0.0,
+            "n": 234
+          }
+        },
+        "six_band_means": {
+          "overlapAt5": {
+            "mean": 0.5134099616858238,
+            "p10": 0.2,
+            "median": 0.6,
+            "n": 261
+          },
+          "orderedAgreement": 0.0,
+          "unclippedRmsDb": {
+            "mean": 2.034862868945354,
+            "p10": 1.2992800900659591,
+            "median": 2.0054303622303635,
+            "n": 261
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.5068376068376069,
+            "p10": 0.2,
+            "median": 0.6,
+            "n": 234
+          }
+        },
+        "no_clipping": {
+          "overlapAt5": {
+            "mean": 0.9555555555555556,
+            "p10": 0.8,
+            "median": 1.0,
+            "n": 261
+          },
+          "orderedAgreement": 0.6781609195402298,
+          "unclippedRmsDb": {
+            "mean": 1.834957279452438,
+            "p10": 1.143923167370676,
+            "median": 1.7852248922236504,
+            "n": 261
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.9598290598290597,
+            "p10": 0.8,
+            "median": 1.0,
+            "n": 234
+          }
+        },
+        "clip_6db": {
+          "overlapAt5": {
+            "mean": 0.7432950191570882,
+            "p10": 0.4,
+            "median": 0.8,
+            "n": 261
+          },
+          "orderedAgreement": 0.07279693486590039,
+          "unclippedRmsDb": {
+            "mean": 1.9618187632360389,
+            "p10": 1.1652010328628042,
+            "median": 1.870622861009625,
+            "n": 261
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.7504273504273505,
+            "p10": 0.4,
+            "median": 0.8,
+            "n": 234
+          }
+        },
+        "clip_18db": {
+          "overlapAt5": {
+            "mean": 0.9563218390804599,
+            "p10": 0.8,
+            "median": 1.0,
+            "n": 261
+          },
+          "orderedAgreement": 0.6781609195402298,
+          "unclippedRmsDb": {
+            "mean": 1.8351360402586556,
+            "p10": 1.143923167370676,
+            "median": 1.7852248922236504,
+            "n": 261
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.9606837606837607,
+            "p10": 0.8,
+            "median": 1.0,
+            "n": 234
+          }
+        },
+        "align_500_2000": {
+          "overlapAt5": {
+            "mean": 0.803831417624521,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 261
+          },
+          "orderedAgreement": 0.10344827586206896,
+          "unclippedRmsDb": {
+            "mean": 1.8815406576350926,
+            "p10": 1.1458637388827924,
+            "median": 1.8262615890022655,
+            "n": 261
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.8034188034188035,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 234
+          }
+        },
+        "bass_weight_2x": {
+          "overlapAt5": {
+            "mean": 0.8053639846743295,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 261
+          },
+          "orderedAgreement": 0.06513409961685823,
+          "unclippedRmsDb": {
+            "mean": 1.865183905156032,
+            "p10": 1.169028646517979,
+            "median": 1.8001099439998445,
+            "n": 261
+          },
+          "defaultQueryOverlapAt5": {
+            "mean": 0.8111111111111111,
+            "p10": 0.6,
+            "median": 0.8,
+            "n": 234
+          }
+        }
+      },
+      "variantOverlapAt5": {
+        "mean": 0.3333333333333333,
+        "p10": 0.0,
+        "median": 0.2,
+        "n": 27
+      },
+      "map": {
+        "overlapAt5": {
+          "mean": 0.28119658119658125,
+          "p10": 0.0,
+          "median": 0.2,
+          "n": 234
+        },
+        "trustworthinessAt5": 0.8983662355343771
+      }
+    }
+  }
+}

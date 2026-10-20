@@ -32,7 +32,7 @@ def ensure_clone() -> None:
         return
     REPO.parent.mkdir(parents=True, exist_ok=True)
     subprocess.run(
-        ["git", "clone", "--depth", "1", "--filter=blob:none", "--sparse", REPO_URL, str(REPO)],
+        ["git", "clone", "--config", "core.autocrlf=false", "--depth", "1", "--filter=blob:none", "--sparse", REPO_URL, str(REPO)],
         check=True,
     )
 

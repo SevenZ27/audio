@@ -7,6 +7,7 @@ Run: python pipeline/fetch_data.py
 from __future__ import annotations
 
 import collections
+import argparse
 import json
 import re
 import subprocess
@@ -46,6 +47,13 @@ def ranking_paths() -> set[str]:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--reselect', action='store_true', help='Explicitly regenerate coverage and rig membership at the checked-out revision')
+    args = parser.parse_args()
+    if not args.reselect:
+        import runpy
+        runpy.run_path(str(ROOT / 'scripts/fetch_locked_source.py'), run_name='__main__')
+        return
     src.ensure_clone()
     subprocess.run(
         ["git", "-C", str(src.REPO), "sparse-checkout", "set", "--no-cone", "/results/*.md"],

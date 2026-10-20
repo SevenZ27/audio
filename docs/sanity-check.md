@@ -1,3 +1,7 @@
+# Legacy exploratory check — not validation
+
+The labels below lack per-product source citations. The pass count is not recommendation accuracy. See [the offline evaluation](evaluation/report.md) for reproducible technical diagnostics.
+
 # Sanity check: do known products land in a sensible group?
 
 The list of products is picked by hand from what exists in the data (common opinion: bass heavy or close to neutral).

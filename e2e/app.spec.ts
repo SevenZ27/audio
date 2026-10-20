@@ -70,6 +70,7 @@ test('quiz finishes with 5 recommendations', async ({ page }, info) => {
 test('map works with keyboard and click', async ({ page }, info) => {
   const w = watch(page)
   await page.goto('/#peta')
+  await expect(page.locator('#peta')).toContainText('Peta ini ringkasan, bukan urutan kemiripan.')
   const map = page.getByTestId('sound-map')
   await map.focus()
   await page.keyboard.press('ArrowRight')

@@ -6,6 +6,7 @@ Run: python pipeline/build_data.py
 """
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 import re
@@ -20,6 +21,7 @@ from sklearn.metrics import silhouette_score
 
 import core
 from catalog import catalog_totals
+from provenance import source_manifest, environment, sha256
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
@@ -63,26 +65,22 @@ def read_csv(path: Path) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     return df["frequency"].to_numpy(float), df["raw"].to_numpy(float), df["target"].to_numpy(float)
 
 
-_CACHE: dict = {}
+SOURCE_QUALITY: list[dict] = []
 
 
 def read_csv_cached(path: Path):
-    if not _CACHE:
-        cache_file = HERE / ".cache" / "csv_cache.pkl"
-        if cache_file.exists():
-            _CACHE.update(pd.read_pickle(cache_file))
-        _CACHE["__dirty__"] = False
-    key = str(path.relative_to(REPO))
-    if key not in _CACHE:
-        _CACHE[key] = read_csv(path)
-        _CACHE["__dirty__"] = True
-    return _CACHE[key]
-
-
-def save_cache() -> None:
-    if _CACHE.get("__dirty__"):
-        data = {k: v for k, v in _CACHE.items() if k != "__dirty__"}
-        pd.to_pickle(data, HERE / ".cache" / "csv_cache.pkl")
+    # Read source bytes on every build. Path-only pickle caches can silently
+    # reuse measurements from a different revision.
+    f, raw, target = read_csv(path)
+    if not (np.isfinite(f).all() and np.isfinite(raw).all() and np.isfinite(target).all()):
+        raise ValueError(f"{path.name}: non-finite measurement")
+    if len(f) < 2 or (np.diff(f) <= 0).any() or f[0] > core.F_MIN or f[-1] < 19900:
+        raise ValueError(f"{path.name}: invalid grid or insufficient frequency coverage")
+    # AutoEq ends at 19955.54 Hz. np.interp holds the last endpoint at
+    # 20 kHz; this documented <0.5% gap is outside similarity's 10 kHz limit.
+    SOURCE_QUALITY.append({'file': path.name, 'rows': len(f), 'minHz': float(f[0]),
+                           'maxHz': float(f[-1]), 'endpointHeldAt20kHz': bool(f[-1] < core.F_MAX)})
+    return f, raw, target
 
 
 def ranking_scores() -> dict[str, dict]:
@@ -293,7 +291,9 @@ def sanity_report(results: list[dict]) -> tuple[str, list[dict]]:
                 ok = warm if expected == "bass-heavy" else (not warm and "terang" not in low)
                 rows.append({"rig": meta["id"], "product": p["name"], "expected": expected, "cluster": cname, "bassDb": round(bass, 1), "ok": ok})
     lines = [
-        "# Sanity check: do known products land in a sensible group?",
+        "# Legacy exploratory label check — not validation",
+        "",
+        "These labels have no per-product citations and are not ground truth. The pass count is not accuracy.",
         "",
         "The list of products is picked by hand from what exists in the data (common opinion: bass heavy or close to neutral).",
         "It is not used for training. A row passes when a bass heavy product lands in a group named bass tebal, bass hangat",
@@ -313,11 +313,18 @@ def sanity_report(results: list[dict]) -> tuple[str, list[dict]]:
 
 
 def main() -> None:
+    global OUT, DOCS
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--output-root', type=Path, default=ROOT,
+                        help='Write public/data and docs under an isolated directory')
+    args = parser.parse_args()
+    OUT, DOCS = args.output_root / 'public/data', args.output_root / 'docs'
+    DOCS.mkdir(parents=True, exist_ok=True)
     cfg = json.loads((HERE / "rigs.json").read_text(encoding="utf-8"))
+    provenance = source_manifest(REPO, cfg)
     grid = core.log_grid()
     scores = ranking_scores()
     results = [process_rig(r, grid, scores) for r in cfg["rigs"]]
-    save_cache()
 
     (OUT / "curves").mkdir(parents=True, exist_ok=True)
     all_products = [p for r in results for p in r["products"]]
@@ -351,6 +358,11 @@ def main() -> None:
     for r in results:
         dump(f"curves/{r['meta']['id']}.json", r["curves"])
 
+    provenance['environment'] = environment()
+    provenance['sourceQuality'] = SOURCE_QUALITY
+    provenance['rigConfigSha256'] = sha256(HERE / 'rigs.json')
+    provenance['outputHashes'] = {p.relative_to(OUT).as_posix(): sha256(p) for p in sorted(OUT.rglob('*.json'))}
+    (DOCS / 'source-manifest.json').write_text(json.dumps(provenance, indent=2), encoding='utf-8')
     sanity_md, sanity_rows = sanity_report(results)
     (DOCS / "sanity-check.md").write_text(sanity_md, encoding="utf-8")
 

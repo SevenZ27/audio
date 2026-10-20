@@ -78,7 +78,7 @@ export function SoundMap({ data }: { data: CoreData }) {
   return (
     <section aria-labelledby="peta-title" id="peta" className="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
       <SectionHead index="03" id="peta-title" title="Peta Karakter Suara">
-        Semua produk dalam satu peta. <span className="text-ink-2">Yang berdekatan, suaranya mirip.</span>
+        Jelajahi karakter suara. <span className="text-ink-2">Peta ini ringkasan, bukan urutan kemiripan.</span>
       </SectionHead>
 
       <div className="mb-5 grid gap-4 md:grid-cols-[minmax(0,360px)_1fr] md:items-end">

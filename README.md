@@ -23,8 +23,8 @@ https://audio-chi-ten.vercel.app
 
 ## How it works
 
-1. **Data.** `pipeline/fetch_data.py` does a sparse, blob-less clone of AutoEq (the full repo is about 4 GB), counts
-   coverage per (source, rig, form) with `git ls-tree`, picks rigs and checks out only their CSV files. Coverage table:
+1. **Data.** `pipeline/fetch_data.py` restores a sparse clone at the full commit locked in `pipeline/rigs.json`.
+   An explicit `--reselect` mode counts coverage and regenerates rig selection at that checkout revision. Coverage table:
    [docs/coverage.md](docs/coverage.md).
 2. **One rig at a time.** Curves from different measurement rigs are not comparable, so a product is only compared
    with products from the same rig. The default rig for each form is the one with the most CSVs. Two more rigs were
@@ -50,7 +50,7 @@ npm test             # Vitest
 npm run build
 
 python -m pip install -r pipeline/requirements.txt
-npm run data:fetch   # sparse clone + coverage + rig choice
+npm run data:fetch   # restore the locked source revision
 npm run data         # rebuild public/data
 npm run test:pipeline
 npm run media        # hero video from media-src/hero.mp4
@@ -76,15 +76,9 @@ Numbers from the last pipeline run ([docs/pipeline-report.md](docs/pipeline-repo
 1,510 measurements, 1,230 model-rig pairs and 1,140 distinct normalized base names across rigs. These are not 1,230 verified unique physical products; see [catalog definitions](docs/catalog.md). Silhouette is low everywhere: headphone tuning is a spectrum, not neat
 boxes, so the group names are a rough guide.
 
-Sanity check with products that are commonly called bass heavy or neutral: 14 of 23 land in a group that makes sense.
-The misses are listed in [docs/sanity-check.md](docs/sanity-check.md). Part of the reason is that groups are named
-relative to the rig target, and Harman style targets already have a bass shelf, so a "fun" IEM can still sit near
-target.
+The stage-two audit evaluates the full frozen export with random and six-band baselines, clipping/alignment/weight ablations, PCA neighborhood preservation, variant sensitivity and all 512 quiz answer combinations. See the [evaluation report](docs/evaluation/report.md), [protocol](docs/evaluation-protocol.md) and [reproduction commands](docs/stage-two-validation.md).
 
-Tests: pipeline tests (same product has distance 0, a product is never its own twin, neighbours never cross rigs) and
-Vitest tests (search, quiz ranking changes when you like bass, filter gains match the curve difference).
-
-User test: not done yet. The plan is to ask 5 friends to take the quiz and say whether the picks match what they like.
+The historical “14 of 23” hand-labeled check has no per-product citations. It is retained as a legacy exploratory artifact, not evidence of preference accuracy. No human validation has been completed; the [study protocol](docs/human-evaluation-protocol.md) separates usability from auditory preference evaluation.
 
 ## Limitations
 
