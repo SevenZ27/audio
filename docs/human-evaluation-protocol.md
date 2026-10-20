@@ -1,5 +1,9 @@
 # Human evaluation plan — not yet executed
 
+Release decision, 20 October 2026: the project owner chose to skip friend/user recruitment. This protocol is retained for possible future use; it contains no participant results. A separate owner confirmation that A/B playback works is not counted as a usability or preference study.
+
+The ready-to-run Indonesian moderator guide, participant task cards, per-session notes and evaluation template are in [the user-testing kit](user-testing/README.md). No participant responses have been collected by preparing this kit. The history and owner-confirmed closure of the A/B playback report are tracked in [the listening diagnosis](audio/listening-check/README.md).
+
 ## Formative usability pilot
 
 Recruit 5–8 target users with different familiarity with headphone measurements. Record consent and anonymous participant IDs; do not collect names in the project repository. Use the same browser tasks: find a familiar model, interpret its similarity score, choose the requested form in the quiz, compare two candidates, interpret the map, and return to earlier results.

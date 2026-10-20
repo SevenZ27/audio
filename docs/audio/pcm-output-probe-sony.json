@@ -1,0 +1,77 @@
+{
+  "pair": [
+    "Sony WF-1000XM4",
+    "Apple Airpods Pro 2"
+  ],
+  "results": [
+    {
+      "hz": 125,
+      "A": {
+        "rms": 0.002158315502165537,
+        "predictedDb": 0
+      },
+      "B": {
+        "rms": 0.0014779468194239288,
+        "predictedDb": -3.2940071014451866
+      },
+      "A_return": {
+        "rms": 0.002160414710358665,
+        "predictedDb": 0
+      },
+      "measuredDeltaDb": -3.2891224568177235,
+      "returnDeltaDb": 0.008443913479907056
+    },
+    {
+      "hz": 500,
+      "A": {
+        "rms": 0.002159263262808434,
+        "predictedDb": 0
+      },
+      "B": {
+        "rms": 0.0019764154899542313,
+        "predictedDb": -0.7687771477747279
+      },
+      "A_return": {
+        "rms": 0.0021593276319301275,
+        "predictedDb": 0
+      },
+      "measuredDeltaDb": -0.7685469373755267,
+      "returnDeltaDb": 0.0002589284795886081
+    },
+    {
+      "hz": 2000,
+      "A": {
+        "rms": 0.002159254620138997,
+        "predictedDb": 0
+      },
+      "B": {
+        "rms": 0.0019187971978806518,
+        "predictedDb": -1.025780325033069
+      },
+      "A_return": {
+        "rms": 0.0021592552009714687,
+        "predictedDb": 0
+      },
+      "measuredDeltaDb": -1.0254956391106715,
+      "returnDeltaDb": 0.0000023364757556222184
+    },
+    {
+      "hz": 8000,
+      "A": {
+        "rms": 0.0021592478796723146,
+        "predictedDb": 0
+      },
+      "B": {
+        "rms": 0.003513962739587342,
+        "predictedDb": 4.229845695059302
+      },
+      "A_return": {
+        "rms": 0.002159249765868946,
+        "predictedDb": 0
+      },
+      "measuredDeltaDb": 4.229893006501884,
+      "returnDeltaDb": 0.000007587497840241242
+    }
+  ],
+  "scope": "Rendered PCM from low-level sine probes through the actual Jam graph, switched with UI buttons. Desktop Chrome, muted output. Not a physical speaker or perceptual test."
+}

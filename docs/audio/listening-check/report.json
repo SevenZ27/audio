@@ -1,0 +1,33 @@
+{
+  "pair": [
+    "Apple Airpods Pro 2",
+    "SeeAudio Yume"
+  ],
+  "gains": [
+    -0.4,
+    -0.7,
+    -0.5,
+    -0.8,
+    -1.7,
+    0,
+    1.9,
+    -1.2,
+    1.5,
+    -3
+  ],
+  "preamp": 0.3,
+  "sampleRate": 48000,
+  "durationSeconds": 10,
+  "metrics": {
+    "rmsA": 0.02098573141348388,
+    "rmsB": 0.019791143856468383,
+    "residualRmsRelativeDb": -20.61384273474687,
+    "rmsDeltaDb": -0.5090642930085771,
+    "maxAbsoluteSampleDifference": 0.0173770934343338,
+    "peakA": 0.18791383504867554,
+    "peakB": 0.1800641417503357
+  },
+  "sourceSha256": "92717e61fc502ea4779ab81716c9b787bc38776ee115b4b120e766ec3b1b49e7",
+  "eqSourceSha256": "f750a9a89e3bd07f48fa7d0f5f161578a6e822baf38e8d2aa5a2e4e66a805d80",
+  "scope": "Actual Jam synthesis, identical seeded notes/noise, same master level, same filter/limiter graph; offline rendering. Does not reproduce live scheduler or physical output. No independent loudness normalization."
+}

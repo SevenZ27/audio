@@ -21,6 +21,8 @@ the vocabulary (sub-bass, upper-mid, target curve).
 
 https://audio-chi-ten.vercel.app
 
+Read the [portfolio case study](docs/portfolio-case-study.md) for the data and application decisions, measured limitations and verification evidence. [Final release checks](docs/release-2026-10-20.md) cover the current release scope.
+
 ## How it works
 
 1. **Data.** `pipeline/fetch_data.py` restores a sparse clone at the full commit locked in `pipeline/rigs.json`.
@@ -114,6 +116,8 @@ The quiz distinguishes in-ear and over-ear only; it does not filter wired/wirele
 Run `python scripts/refresh_catalog.py` to validate catalog identities and refresh metadata counts from the existing export without changing curves or rankings. Run `npm ci`, `npm run build`, `npm test`, `npm run test:pipeline`, and `npm run test:e2e` before releasing. Browser tests use the built output on port 4171; do not run a second preview on that port.
 
 ## UX and audio reliability
+
+The [Indonesian user-testing kit](docs/user-testing/README.md) includes moderator scenarios, participant cards, session notes and evaluation rubrics. Recruitment was skipped for this release; it contains no participant results. See the [A/B listening investigation](docs/audio/listening-check/README.md) for rendered-signal checks and the owner's subsequent confirmation that playback works.
 
 Search results, quiz answers/results, map selection and comparison choices survive product-detail navigation within the mounted app. Comparison supports direct entry from search results, same-rig selection, A/B swapping, curve comparison and return to the initiating result. Reloading the page resets this in-memory state.
 

@@ -1,0 +1,77 @@
+{
+  "pair": [
+    "Apple Airpods Pro 2",
+    "SeeAudio Yume"
+  ],
+  "results": [
+    {
+      "hz": 125,
+      "A": {
+        "rms": 0.002159594046584439,
+        "predictedDb": 0
+      },
+      "B": {
+        "rms": 0.002027706341028733,
+        "predictedDb": -0.5467727057753571
+      },
+      "A_return": {
+        "rms": 0.002158162786305296,
+        "predictedDb": 0
+      },
+      "measuredDeltaDb": -0.5473412456157555,
+      "returnDeltaDb": -0.005758438821113125
+    },
+    {
+      "hz": 500,
+      "A": {
+        "rms": 0.002159325425236944,
+        "predictedDb": 0
+      },
+      "B": {
+        "rms": 0.0018143415328860046,
+        "predictedDb": -1.5119853880909038
+      },
+      "A_return": {
+        "rms": 0.0021593200568655333,
+        "predictedDb": 0
+      },
+      "measuredDeltaDb": -1.5119811226459345,
+      "returnDeltaDb": -0.00002159430858643272
+    },
+    {
+      "hz": 2000,
+      "A": {
+        "rms": 0.0021593169509591032,
+        "predictedDb": 0
+      },
+      "B": {
+        "rms": 0.0027060304611768193,
+        "predictedDb": 1.9606668947254207
+      },
+      "A_return": {
+        "rms": 0.0021592433279161373,
+        "predictedDb": 0
+      },
+      "measuredDeltaDb": 1.9603257399329208,
+      "returnDeltaDb": -0.0002961550075889007
+    },
+    {
+      "hz": 8000,
+      "A": {
+        "rms": 0.0021593062176915893,
+        "predictedDb": 0
+      },
+      "B": {
+        "rms": 0.002573493923093334,
+        "predictedDb": 1.5242197848341064
+      },
+      "A_return": {
+        "rms": 0.0021592699368004607,
+        "predictedDb": 0
+      },
+      "measuredDeltaDb": 1.5241782352705715,
+      "returnDeltaDb": -0.00014594246114866367
+    }
+  ],
+  "scope": "Rendered PCM from low-level sine probes through the actual Jam graph, switched with UI buttons. Desktop Chrome, muted output. Not a physical speaker or perceptual test."
+}
