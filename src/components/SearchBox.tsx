@@ -39,7 +39,7 @@ export function SearchBox({ products, rigs, label, placeholder, onPick, rig, inp
 
   const pick = (i: number) => {
     onPick(i)
-    setQuery('')
+    setQuery(products[i].name)
     setOpen(false)
   }
 
@@ -73,7 +73,7 @@ export function SearchBox({ products, rigs, label, placeholder, onPick, rig, inp
         onKeyDown={(e) => {
           if (e.key === 'ArrowDown') {
             setOpen(true)
-            setActive((a) => Math.min(results.length - 1, a + 1))
+            setActive((a) => Math.max(0, Math.min(results.length - 1, a + 1)))
             e.preventDefault()
           } else if (e.key === 'ArrowUp') {
             setActive((a) => Math.max(0, a - 1))

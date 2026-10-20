@@ -27,6 +27,10 @@ export class Jam {
   private nextTime = 0
   private step = 0
   private volume = 0.6
+  private generation = 0
+  private disposed = false
+  private desiredGains = OCTAVE_HZ.map(() => 0)
+  private readonly sources = new Set<AudioScheduledSourceNode>()
 
   constructor() {
     const Ctor = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
@@ -68,44 +72,74 @@ export class Jam {
   }
 
   async start() {
+    if (this.disposed) throw new Error('Audio session is closed')
+    const token = ++this.generation
     await this.ctx.resume()
-    if (this.timer !== null) return
+    if (this.disposed || token !== this.generation) return false
+    if (this.ctx.state !== 'running') throw new Error('Audio context did not resume')
+    if (this.timer !== null) return true
+    // A rapid restart must not resurrect the previous loop's fading voices.
+    for (const source of this.sources) {
+      try { source.stop() } catch { /* Already ended. */ }
+    }
     this.nextTime = this.ctx.currentTime + 0.05
     this.step = 0
     this.master.gain.setTargetAtTime(this.volume, this.ctx.currentTime, 0.05)
     this.timer = window.setInterval(() => this.schedule(), 25)
     this.schedule()
+    return true
   }
 
   stop() {
+    this.generation++
     if (this.timer !== null) window.clearInterval(this.timer)
     this.timer = null
+    if (this.disposed) return
     this.master.gain.setTargetAtTime(0, this.ctx.currentTime, 0.04)
+    for (const source of this.sources) {
+      try { source.stop(this.ctx.currentTime + 0.15) } catch { /* Already ended. */ }
+    }
   }
 
   setVolume(v: number) {
-    this.volume = v
-    if (this.running) this.master.gain.setTargetAtTime(v, this.ctx.currentTime, 0.03)
+    this.volume = Math.max(0, Math.min(1, v))
+    if (this.running) this.master.gain.setTargetAtTime(this.volume, this.ctx.currentTime, 0.03)
   }
 
-  /** Apply filter gains in dB. The values are set directly so they can be read back. */
+  /** Smooth transitions; reported gains are targets, not instantaneous automation values. */
   setEq(gains: number[], preampDb: number) {
+    if (this.disposed) return
+    this.desiredGains = OCTAVE_HZ.map((_, i) => gains[i] ?? 0)
     this.filters.forEach((f, i) => {
-      f.gain.value = gains[i] ?? 0
+      f.gain.cancelAndHoldAtTime(this.ctx.currentTime)
+      f.gain.setTargetAtTime(this.desiredGains[i], this.ctx.currentTime, 0.015)
     })
-    this.preamp.gain.value = 10 ** (preampDb / 20)
+    this.preamp.gain.cancelAndHoldAtTime(this.ctx.currentTime)
+    this.preamp.gain.setTargetAtTime(10 ** (preampDb / 20), this.ctx.currentTime, 0.015)
   }
 
   appliedGains(): number[] {
-    return this.filters.map((f) => Math.round(f.gain.value * 10) / 10)
+    return [...this.desiredGains]
   }
 
   close() {
+    if (this.disposed) return
     this.stop()
-    void this.ctx.close()
+    this.disposed = true
+    void this.ctx.close().catch(() => {})
+  }
+
+  private track(source: AudioScheduledSourceNode, nodes: AudioNode[]) {
+    this.sources.add(source)
+    source.onended = () => {
+      this.sources.delete(source)
+      source.disconnect()
+      nodes.forEach(node => node.disconnect())
+    }
   }
 
   private schedule() {
+    if (this.disposed || this.timer === null) return
     while (this.nextTime < this.ctx.currentTime + LOOKAHEAD) {
       this.playStep(this.step, this.nextTime)
       this.nextTime += STEP
@@ -140,6 +174,7 @@ export class Jam {
     o.frequency.exponentialRampToValueAtTime(42, t + 0.12)
     const g = this.env(t, 0.9, 0.004, 0.32)
     o.connect(g)
+    this.track(o, [g])
     o.start(t)
     o.stop(t + 0.4)
   }
@@ -153,6 +188,7 @@ export class Jam {
     const g = this.env(t, peak, 0.002, decay)
     src.connect(f)
     f.connect(g)
+    this.track(src, [f, g])
     src.start(t, Math.random() * 0.5)
     src.stop(t + decay + 0.05)
   }
@@ -164,6 +200,7 @@ export class Jam {
     o.frequency.setValueAtTime(190, t)
     const g = this.env(t, 0.25, 0.002, 0.1)
     o.connect(g)
+    this.track(o, [g])
     o.start(t)
     o.stop(t + 0.15)
   }
@@ -183,6 +220,7 @@ export class Jam {
     const g = this.env(t, 0.32, 0.006, 0.22)
     o.connect(lp)
     lp.connect(g)
+    this.track(o, [lp, g])
     o.start(t)
     o.stop(t + 0.3)
   }
@@ -205,6 +243,7 @@ export class Jam {
         o.frequency.value = f
         o.detune.value = detune
         o.connect(lp)
+        this.track(o, [lp, g])
         o.start(t)
         o.stop(t + length + 0.05)
       }

@@ -82,5 +82,5 @@ default rig for the chosen form.
 
 - Filter centres: 31.5, 63, 125, 250, 500, 1k, 2k, 4k, 8k, 16k Hz, peaking, Q 1.41
 - Gain = curve B minus curve A at the centre frequency, clamped to +-12 dB
-- Preamp = -10 log10(mean(10^(gain/10))), so every octave counts the same and B plays at about the loudness of A
+- Preamp = -10 log10(mean(10^(gain/10))), an equal-band power heuristic from requested gains. It is not a measured or perceptual loudness match; see [native audio diagnostics](audio/report.md).
 - Mode A plays the loop with all gains at 0, mode B applies the gains

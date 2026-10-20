@@ -39,7 +39,7 @@ https://audio-chi-ten.vercel.app
    (-3 to +2 dB). Products are ranked by distance to that taste curve.
 7. **Listen to the difference.** A small procedural loop (kick, snare, hats, bass, pad) made with the Web Audio API
    goes through 10 peaking filters at octave centres. Gains are the B minus A curve difference, clamped to +-12 dB,
-   with a preamp so A and B play at about the same loudness.
+   with a heuristic preamp adjustment. This does not guarantee equal perceived loudness.
 
 Everything runs in the browser from static JSON. No backend, no API keys, no analytics.
 
@@ -112,3 +112,11 @@ The historical “14 of 23” hand-labeled check has no per-product citations. I
 The quiz distinguishes in-ear and over-ear only; it does not filter wired/wireless connectivity. Malformed product URLs use the not-found view. Core data and curve panels have loading/error/retry behavior, with a 12-second request timeout and failed-request cache eviction.
 
 Run `python scripts/refresh_catalog.py` to validate catalog identities and refresh metadata counts from the existing export without changing curves or rankings. Run `npm ci`, `npm run build`, `npm test`, `npm run test:pipeline`, and `npm run test:e2e` before releasing. Browser tests use the built output on port 4171; do not run a second preview on that port.
+
+## UX and audio reliability
+
+Search results, quiz answers/results, map selection and comparison choices survive product-detail navigation within the mounted app. Comparison supports direct entry from search results, same-rig selection, A/B swapping, curve comparison and return to the initiating result. Reloading the page resets this in-memory state.
+
+Audio starts only after an explicit user action. Pending starts can be cancelled; changing the pair, hiding the tab or opening a product detail stops playback. Leaving for a detail closes the AudioContext. A/B EQ transitions are smoothed and scheduled voices are cleaned up. Displayed gain values describe the target settings; native filter measurements are recorded separately.
+
+See [UX and audio verification](docs/ux-audio-validation.md) and the [audio response report](docs/audio/report.md). These checks cover Chromium desktop and mobile emulation, not every physical device or listening preference.

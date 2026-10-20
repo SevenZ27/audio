@@ -4,6 +4,7 @@ import { curveOf, rigLabel, ScoreBadge, SectionHead, CurveStatus, useCurves } fr
 import { diffSentence } from '../lib/curve'
 import { productHref } from '../lib/router'
 import type { CoreData } from '../lib/types'
+import type { Pair } from './ListenDiff'
 
 const SUGGEST = ['Apple Airpods Pro 2', 'Apple AirPods Pro', 'Sony WH-1000XM4', 'Sennheiser HD 600', 'Apple AirPods Max']
 
@@ -11,9 +12,10 @@ interface Props {
   data: CoreData
   selected: number | null
   onSelect: (index: number) => void
+  onListen: (pair: Pair) => void
 }
 
-export function Twins({ data, selected, onSelect }: Props) {
+export function Twins({ data, selected, onSelect, onListen }: Props) {
   const { products, neighbors, meta } = data
   const product = selected !== null ? products[selected] : null
   const curveState = useCurves(product?.rig)
@@ -101,6 +103,7 @@ export function Twins({ data, selected, onSelect }: Props) {
                     {base && tc ? diffSentence(meta.grid, base, tc) : ' '}
                   </p>
                   <p className="num mt-1 text-xs text-ink-2">Selisih rata-rata {dist.toFixed(1)} dB (20 Hz sampai 10 kHz)</p>
+                  <button type="button" className="btn-ghost mt-4 min-h-11" onClick={() => onListen({ a: selected!, b: idx })}>Bandingkan & dengar</button>
                   <a href={productHref(twin.id)} className="mt-4 text-sm font-medium text-teal underline-offset-4 hover:underline">
                     Lihat {twin.name}
                   </a>
@@ -109,7 +112,7 @@ export function Twins({ data, selected, onSelect }: Props) {
             })}
           </ol>
           <p className="mt-5 text-sm text-ink-2">
-            Garis berwarna: {product.name}. Garis abu: kembarannya. Kalimat di tiap kartu membandingkan kembaran terhadap{' '}
+            Skor kemiripan bukan peluang kamu menyukainya. Garis berwarna: {product.name}. Garis abu: kembarannya. Kalimat di tiap kartu membandingkan kembaran terhadap{' '}
             {product.name}.
           </p>
         </div>

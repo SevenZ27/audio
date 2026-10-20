@@ -10,9 +10,10 @@ interface Props {
   data: CoreData
   id: string
   onListen: (p: Pair) => void
+  onBack: () => void
 }
 
-export function ProductPage({ data, id, onListen }: Props) {
+export function ProductPage({ data, id, onListen, onBack }: Props) {
   const { products, neighbors, meta } = data
   const index = data.indexById.get(id)
   const headingRef = useRef<HTMLHeadingElement>(null)
@@ -48,9 +49,9 @@ export function ProductPage({ data, id, onListen }: Props) {
 
   return (
     <main className="mx-auto max-w-6xl px-5 pt-28 pb-24 sm:px-8">
-      <a href="#kembaran" className="text-sm text-ink-2 hover:text-ink">
-        ← Kembali
-      </a>
+      <button type="button" onClick={onBack} className="btn-ghost min-h-11 text-sm">
+        Kembali ke hasil sebelumnya
+      </button>
       <div className="mt-6 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
         <div>
           <p className="eyebrow">{rig.formLabel}</p>
