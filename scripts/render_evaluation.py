@@ -7,6 +7,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 
+matplotlib.rcParams['svg.hashsalt'] = 'audiomatch-evaluation-v1'
+
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'docs/evaluation'
 
@@ -36,7 +38,9 @@ def main():
     axes[1].set_xlabel('Fraction of high-dimensional neighbors retained')
     fig.suptitle('AudioMatch offline diagnostics — not preference accuracy', fontsize=14, fontweight='bold')
     fig.savefig(OUT / 'diagnostics.png', dpi=180)
-    fig.savefig(OUT / 'diagnostics.svg')
+    svg = OUT / 'diagnostics.svg'
+    fig.savefig(svg, metadata={'Date': None})
+    svg.write_text('\n'.join(line.rstrip() for line in svg.read_text(encoding='utf-8').splitlines()) + '\n', encoding='utf-8')
     plt.close(fig)
     lines = ['# AudioMatch: data quality and offline evaluation', '',
              'Stage two evaluates the frozen 1,510-measurement catalog. No listening or user-preference labels were collected. The retrieval method remains unchanged; these experiments identify limitations and establish a reproducible baseline.', '',
