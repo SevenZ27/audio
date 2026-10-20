@@ -2,7 +2,7 @@
 
 AutoEq commit `7ae0f56d53` (2025-07-20). Grid 96 log points 20 Hz to 20 kHz.
 Similarity and clustering use 20 Hz to 10000 Hz. Level aligned on 300 Hz to 3000 Hz. Error clipped to +-12 dB before distance, PCA and k-means.
-Total 1510 measurements, 1230 models (one default variant each).
+Total 1510 measurements, 1230 model-rig pairs, 1140 distinct base names across rigs (not verified unique physical products).
 
 | rig | entries | models | with pref score | PCA PC1 | PCA PC2 | k | silhouette | median distance dB | target spread dB |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|

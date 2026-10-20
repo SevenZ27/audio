@@ -1,6 +1,6 @@
 import { CurveChart } from '../components/CurveChart'
 import { SearchBox } from '../components/SearchBox'
-import { curveOf, rigLabel, ScoreBadge, SectionHead, useCurves } from '../components/common'
+import { curveOf, rigLabel, ScoreBadge, SectionHead, CurveStatus, useCurves } from '../components/common'
 import { diffSentence } from '../lib/curve'
 import { productHref } from '../lib/router'
 import type { CoreData } from '../lib/types'
@@ -16,7 +16,8 @@ interface Props {
 export function Twins({ data, selected, onSelect }: Props) {
   const { products, neighbors, meta } = data
   const product = selected !== null ? products[selected] : null
-  const curves = useCurves(product?.rig)
+  const curveState = useCurves(product?.rig)
+  const { curves } = curveState
   const chips = SUGGEST.map((n) => products.findIndex((p) => p.name.toLowerCase() === n.toLowerCase())).filter((i) => i >= 0)
 
   const twins = selected !== null ? neighbors[selected].slice(0, 5) : []
@@ -68,6 +69,7 @@ export function Twins({ data, selected, onSelect }: Props) {
             </a>
           </div>
 
+          <CurveStatus {...curveState} />
           <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {twins.map(([idx, score, dist], n) => {
               const twin = products[idx]

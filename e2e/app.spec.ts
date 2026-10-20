@@ -13,6 +13,11 @@ function watch(page: Page) {
   })
   page.on('request', (r) => {
     const u = new URL(r.url())
+    // Host antivirus injects this script into HTTP responses; it is not shipped by AudioMatch.
+    if (u.hostname === 'gc.kis.v2.scr.kaspersky-labs.com') {
+      test.info().annotations.push({ type: 'environment', description: 'Host antivirus injected a request; application external requests are still checked.' })
+      return
+    }
     if (!['localhost', '127.0.0.1'].includes(u.hostname) && u.protocol.startsWith('http')) external.push(r.url())
   })
   return { errors, external }
@@ -27,8 +32,8 @@ test('home loads, placeholder hero, no console errors, no external requests', as
   await expect(page.locator('#kembaran ol > li')).toHaveCount(5)
   await page.waitForLoadState('networkidle')
   await page.waitForTimeout(1600)
-  await page.screenshot({ path: `docs/screenshots/${info.project.name === 'desktop-1440' ? 'desktop-1440' : 'mobile-375'}.jpg`, quality: 85 })
-  await page.screenshot({ path: `docs/screenshots/${info.project.name}-full.jpg`, fullPage: true, quality: 80 })
+  await page.screenshot({ path: info.outputPath(`${info.project.name === 'desktop-1440' ? 'desktop-1440' : 'mobile-375'}.jpg`), quality: 85 })
+  await page.screenshot({ path: info.outputPath(`${info.project.name}-full.jpg`), fullPage: true, quality: 80 })
   expect(w.errors).toEqual([])
   expect(w.external).toEqual([])
 })
@@ -58,7 +63,7 @@ test('quiz finishes with 5 recommendations', async ({ page }, info) => {
     await quiz.getByRole('button', { name: i === 4 ? 'Lihat hasil' : 'Lanjut' }).click()
   }
   await expect(page.getByTestId('quiz-results').locator('li')).toHaveCount(5)
-  await quiz.screenshot({ path: `docs/screenshots/${info.project.name}-quiz.png` })
+  await quiz.screenshot({ path: info.outputPath(`${info.project.name}-quiz.png`) })
   expect(w.errors).toEqual([])
 })
 
@@ -70,12 +75,13 @@ test('map works with keyboard and click', async ({ page }, info) => {
   await page.keyboard.press('ArrowRight')
   await page.keyboard.press('ArrowUp')
   await expect(page.locator('#peta [aria-live="polite"]')).toContainText('Enter')
-  await page.locator('#peta').screenshot({ path: `docs/screenshots/${info.project.name}-map.png` })
-  await page.keyboard.press('Enter')
+  await page.locator('#peta').screenshot({ path: info.outputPath(`${info.project.name}-map.png`) })
+  await map.press('Enter')
   await expect(page).toHaveURL(/#\/produk\//)
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   await page.goto('/#peta')
-  await page.getByTestId('sound-map').locator('circle').nth(3).click({ force: true })
+  await page.getByTestId('sound-map').evaluate((el) => el.scrollIntoView({ block: 'center' }))
+  await page.getByTestId('sound-map').locator('circle').nth(3).click()
   await expect(page).toHaveURL(/#\/produk\//)
   expect(w.errors).toEqual([])
 })
@@ -91,7 +97,7 @@ test('product page shows curve, group and twins', async ({ page }, info) => {
   await page.keyboard.press('ArrowRight')
   await expect(page.locator('figure p[aria-live="polite"]').first()).toContainText('Hz')
   await page.waitForTimeout(1600)
-  await page.screenshot({ path: `docs/screenshots/${info.project.name}-product.png`, fullPage: true })
+  await page.screenshot({ path: info.outputPath(`${info.project.name}-product.png`), fullPage: true })
   expect(w.errors).toEqual([])
 })
 
@@ -110,7 +116,7 @@ test('Dengar Bedanya: AudioContext starts and filter gains match the curve diffe
   expect(state).toBe('ok')
   await panel.getByRole('button', { name: 'A', exact: true }).click()
   await expect(panel).toHaveAttribute('data-applied', '0,0,0,0,0,0,0,0,0,0')
-  await page.locator('#dengar').screenshot({ path: `docs/screenshots/${info.project.name}-listen.png` })
+  await page.locator('#dengar').screenshot({ path: info.outputPath(`${info.project.name}-listen.png`) })
   await panel.getByRole('button', { name: 'Stop' }).click()
   expect(w.errors).toEqual([])
 })
@@ -118,7 +124,7 @@ test('Dengar Bedanya: AudioContext starts and filter gains match the curve diffe
 test('reduced motion keeps placeholder still', async ({ browser }) => {
   const ctx = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } })
   const page = await ctx.newPage()
-  await page.goto('http://localhost:4171/')
+  await page.goto('http://127.0.0.1:4171/')
   const anim = await page.locator('.ring').first().evaluate((el) => getComputedStyle(el).animationName)
   expect(anim).toBe('none')
   await ctx.close()

@@ -5,7 +5,12 @@ export type Route = { page: 'home'; section?: string } | { page: 'product'; id: 
 export function parseHash(hash: string): Route {
   const h = hash.replace(/^#\/?/, '')
   if (h.startsWith('produk/')) {
-    return { page: 'product', id: decodeURIComponent(h.slice('produk/'.length)) }
+    try {
+      return { page: 'product', id: decodeURIComponent(h.slice('produk/'.length)) }
+    } catch {
+      // Keep malformed shared links inside the existing not-found UI.
+      return { page: 'product', id: '' }
+    }
   }
   return { page: 'home', section: h || undefined }
 }

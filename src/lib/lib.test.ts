@@ -126,10 +126,23 @@ describe('quiz', () => {
 })
 
 describe('router', () => {
+  it('sends malformed encodings to the product not-found view', () => {
+    expect(parseHash('#/produk/%ZZ')).toEqual({ page: 'product', id: '' })
+    expect(parseHash('#/produk/%E0%A4%A')).toEqual({ page: 'product', id: '' })
+    expect(parseHash('#/produk/')).toEqual({ page: 'product', id: '' })
+  })
   it('round trips product ids with special characters', () => {
     const id = 'superreview-inear~apple-airpods-pro'
     const r = parseHash(productHref(id))
     expect(r).toEqual({ page: 'product', id })
     expect(parseHash('#kuis')).toEqual({ page: 'home', section: 'kuis' })
+  })
+})
+
+describe('quiz form choices', () => {
+  it('only promises the two form factors supported by the data', () => {
+    expect(QUIZ[0].options.map((o) => o.form)).toEqual(['in-ear', 'over-ear'])
+    expect(tasteFromAnswers([0]).form).toBe('in-ear')
+    expect(tasteFromAnswers([1]).form).toBe('over-ear')
   })
 })

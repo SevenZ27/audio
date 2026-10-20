@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { CurveChart, formatDb } from '../components/CurveChart'
-import { curveOf, formatRp, rigLabel, ScoreBadge, useCurves } from '../components/common'
+import { curveOf, formatRp, rigLabel, ScoreBadge, CurveStatus, useCurves } from '../components/common'
 import { productHref } from '../lib/router'
 import type { CoreData } from '../lib/types'
 import { CLUSTER_COLORS } from './SoundMap'
@@ -23,7 +23,8 @@ export function ProductPage({ data, id, onListen }: Props) {
   }, [id])
 
   const product = index !== undefined ? products[index] : null
-  const curves = useCurves(product?.rig)
+  const curveState = useCurves(product?.rig)
+  const { curves } = curveState
 
   if (!product || index === undefined) {
     return (
@@ -92,6 +93,7 @@ export function ProductPage({ data, id, onListen }: Props) {
 
           <div className="card mt-8 p-4 md:p-6">
             <h2 className="mb-3 font-semibold">Kurva vs target rig</h2>
+            <CurveStatus {...curveState} />
             {curves && raw ? (
               <CurveChart
                 grid={meta.grid}
@@ -103,7 +105,7 @@ export function ProductPage({ data, id, onListen }: Props) {
                 ]}
               />
             ) : (
-              <div className="h-64 animate-pulse rounded-xl bg-surface-2" />
+              curveState.loading ? <div aria-hidden="true" className="h-64 animate-pulse rounded-xl bg-surface-2" /> : null
             )}
             <p className="mt-2 text-xs text-ink-2">Area agak terang di kanan (di atas 10 kHz) tidak dipakai untuk menghitung kemiripan.</p>
           </div>

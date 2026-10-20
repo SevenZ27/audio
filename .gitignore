@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.venv/
+.test-python/
+.vercel/
+__pycache__/
+.pytest_cache/
+*.tsbuildinfo
+test-results/
+playwright-report/
+pipeline/.cache/

@@ -30,8 +30,7 @@ export const QUIZ: QuizQuestion[] = [
     id: 'form',
     title: 'Kamu cari tipe yang mana?',
     options: [
-      { label: 'IEM kabel', hint: 'masuk ke lubang telinga', form: 'in-ear' },
-      { label: 'TWS atau earbuds', hint: 'yang pakai ujung karet', form: 'in-ear' },
+      { label: 'In-ear', hint: 'IEM atau TWS dengan ujung yang masuk ke telinga', form: 'in-ear' },
       { label: 'Over-ear', hint: 'nutup seluruh telinga', form: 'over-ear' },
     ],
   },

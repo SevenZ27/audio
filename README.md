@@ -17,9 +17,9 @@ is backed by data.
 People in Indonesia shopping for a first "serious" pair of earphones or headphones, who know what they like but not
 the vocabulary (sub-bass, upper-mid, target curve).
 
-## Demo
+## Live app
 
-https://audiomatch-steven.vercel.app
+https://audio-chi-ten.vercel.app
 
 ## How it works
 
@@ -73,7 +73,7 @@ Numbers from the last pipeline run ([docs/pipeline-report.md](docs/pipeline-repo
 | HypetheSonics, GRAS RA0045 | in-ear | 127 | 50.8% + 18.5% | 3 | 0.203 |
 | oratory1990, GRAS 45BC-10 | over-ear | 234 | 54.1% + 11.8% | 3 | 0.193 |
 
-1,510 measurements, 1,230 models in total. Silhouette is low everywhere: headphone tuning is a spectrum, not neat
+1,510 measurements, 1,230 model-rig pairs and 1,140 distinct normalized base names across rigs. These are not 1,230 verified unique physical products; see [catalog definitions](docs/catalog.md). Silhouette is low everywhere: headphone tuning is a spectrum, not neat
 boxes, so the group names are a rough guide.
 
 Sanity check with products that are commonly called bass heavy or neutral: 14 of 23 land in a group that makes sense.
@@ -112,3 +112,9 @@ User test: not done yet. The plan is to ask 5 friends to take the quiz and say w
 - Measurement data: AutoEq by Jaakko Pasanen, and Super Review, Rtings, HypetheSonics, oratory1990.
 - Hero video (when added): made with an image-to-video model, then edited with `scripts/make_hero.py`.
 - Built by Steven Gerald Cahyadi ([SevenZ27](https://github.com/SevenZ27)).
+
+## Stage-one reliability checks
+
+The quiz distinguishes in-ear and over-ear only; it does not filter wired/wireless connectivity. Malformed product URLs use the not-found view. Core data and curve panels have loading/error/retry behavior, with a 12-second request timeout and failed-request cache eviction.
+
+Run `python scripts/refresh_catalog.py` to validate catalog identities and refresh metadata counts from the existing export without changing curves or rankings. Run `npm ci`, `npm run build`, `npm test`, `npm run test:pipeline`, and `npm run test:e2e` before releasing. Browser tests use the built output on port 4171; do not run a second preview on that port.

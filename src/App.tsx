@@ -22,18 +22,23 @@ export default function App() {
   const route = useRoute()
   const [data, setData] = useState<CoreData | null>(null)
   const [failed, setFailed] = useState(false)
+  const [attempt, setAttempt] = useState(0)
   const [selected, setSelected] = useState<number | null>(null)
   const [pair, setPair] = useState<Pair | null>(null)
 
   useEffect(() => {
+    let alive = true
+    setFailed(false)
     loadCore()
       .then((d) => {
+        if (!alive) return
         setData(d)
         const start = d.products.findIndex((p) => p.name === 'Apple Airpods Pro 2')
         setSelected(start >= 0 ? start : 0)
       })
-      .catch(() => setFailed(true))
-  }, [])
+      .catch(() => { if (alive) setFailed(true) })
+    return () => { alive = false }
+  }, [attempt])
 
   // scroll to a section after coming back from a product page
   useEffect(() => {
@@ -84,12 +89,13 @@ export default function App() {
         </div>
       ) : (
         <>
-          <Hero models={data?.meta.totals.models ?? null} />
+          <Hero measurements={data?.meta.totals.measurements ?? null} />
           <main id="konten">
             {failed && (
-              <p role="alert" className="mx-auto max-w-6xl px-5 py-10 text-[#F5C06B]">
-                Data gagal dimuat. Coba muat ulang halaman.
-              </p>
+              <div role="alert" className="mx-auto max-w-6xl px-5 py-10">
+                <p>Data belum bisa dimuat. Periksa koneksi lalu coba lagi.</p>
+                <button type="button" className="btn-ghost mt-3 min-h-11" onClick={() => setAttempt((n) => n + 1)}>Muat ulang data</button>
+              </div>
             )}
             {data ? (
               <>

@@ -7,9 +7,9 @@ export default defineConfig({
   workers: 2,
   expect: { timeout: 15_000 },
   use: {
-    baseURL: 'http://localhost:4171',
+    baseURL: 'http://127.0.0.1:4171',
     launchOptions: {
-      args: ['--autoplay-policy=no-user-gesture-required'],
+      args: ['--autoplay-policy=no-user-gesture-required', '--mute-audio'],
       // optional: point to an already installed Chromium instead of downloading one
       executablePath: process.env.PW_CHROMIUM || undefined,
     },
@@ -19,9 +19,9 @@ export default defineConfig({
     { name: 'desktop-1440', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } },
   ],
   webServer: {
-    command: 'npm run preview',
-    url: 'http://localhost:4171',
-    reuseExistingServer: true,
+    command: 'node node_modules/vite/bin/vite.js preview --host 127.0.0.1',
+    url: 'http://127.0.0.1:4171',
+    reuseExistingServer: false,
     timeout: 60_000,
   },
 })

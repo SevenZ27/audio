@@ -12,7 +12,7 @@ function usePrefersReducedMotion() {
   return reduced
 }
 
-export function Hero({ models }: { models: number | null }) {
+export function Hero({ measurements }: { measurements: number | null }) {
   const [hasVideo, setHasVideo] = useState(false)
   const reduced = usePrefersReducedMotion()
 
@@ -57,8 +57,8 @@ export function Hero({ models }: { models: number | null }) {
           <span className="grad-text">Cari kembarannya.</span>
         </h1>
         <p className="rise mt-5 max-w-xl text-lg text-ink-2 md:text-xl" style={{ animationDelay: '160ms' }}>
-          Headphone dan earphone yang karakternya paling mirip sama yang kamu suka, dihitung dari data pengukuran
-          {models ? <span className="num"> {models.toLocaleString('id-ID')} model</span> : null}, bukan dari iklan.
+          Headphone dan earphone yang karakternya paling mirip sama yang kamu suka, dihitung dari
+          {measurements ? <span className="num"> {measurements.toLocaleString('id-ID')} hasil pengukuran</span> : ' data pengukuran'}, bukan dari iklan.
         </p>
         <div className="rise mt-8 flex flex-wrap gap-3" style={{ animationDelay: '240ms' }}>
           <a className="btn-primary" href="#kembaran">

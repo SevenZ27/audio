@@ -2,22 +2,32 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { loadCurves, type DecodedCurves } from '../lib/data'
 import type { CoreData, Product } from '../lib/types'
 
-export function useCurves(rig: string | null | undefined): DecodedCurves | null {
-  const [curves, setCurves] = useState<DecodedCurves | null>(null)
+export function useCurves(rig: string | null | undefined) {
+  const [attempt, setAttempt] = useState(0)
+  const [state, setState] = useState<{ rig: string; attempt: number; curves: DecodedCurves | null; failed: boolean } | null>(null)
   useEffect(() => {
     let alive = true
-    if (!rig) {
-      setCurves(null)
-      return
-    }
-    loadCurves(rig).then((c) => {
-      if (alive) setCurves(c)
-    })
+    if (!rig) return
+    loadCurves(rig).then(
+      (curves) => { if (alive) setState({ rig, attempt, curves, failed: false }) },
+      () => { if (alive) setState({ rig, attempt, curves: null, failed: true }) },
+    )
     return () => {
       alive = false
     }
-  }, [rig])
-  return curves && curves.rig === rig ? curves : null
+  }, [rig, attempt])
+  const current = state && state.rig === rig && state.attempt === attempt ? state : null
+  return { curves: current?.curves ?? null, failed: current?.failed ?? false, loading: Boolean(rig && !current), retry: () => setAttempt((n) => n + 1) }
+}
+
+export function CurveStatus({ loading, failed, retry }: ReturnType<typeof useCurves>) {
+  if (failed) return (
+    <div role="alert" className="my-4 rounded-xl border border-line p-4 text-sm">
+      <p>Kurva belum bisa dimuat. Periksa koneksi lalu coba lagi.</p>
+      <button type="button" onClick={retry} className="btn-ghost mt-3 min-h-11">Coba lagi</button>
+    </div>
+  )
+  return loading ? <p role="status" className="my-4 text-sm text-ink-2">Memuat kurva…</p> : null
 }
 
 export function curveOf(curves: DecodedCurves, p: Product): number[] | null {

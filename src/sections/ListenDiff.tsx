@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { formatDb } from '../components/CurveChart'
 import { SearchBox } from '../components/SearchBox'
-import { curveOf, rigLabel, SectionHead, useCurves } from '../components/common'
+import { curveOf, rigLabel, SectionHead, CurveStatus, useCurves } from '../components/common'
 import type { Jam } from '../lib/audio'
 import { eqGains, loudnessPreamp, OCTAVE_HZ } from '../lib/eq'
 import type { CoreData } from '../lib/types'
@@ -31,7 +31,8 @@ export function ListenDiff({ data, pair, onPair }: Props) {
   const { a, b } = pair ?? fallback
   const A = products[a]
   const B = products[b]
-  const curves = useCurves(A.rig)
+  const curveState = useCurves(A.rig)
+  const { curves } = curveState
   const [mode, setMode] = useState<'A' | 'B'>('A')
   const [playing, setPlaying] = useState(false)
   const [volume, setVolume] = useState(0.6)
@@ -49,7 +50,13 @@ export function ListenDiff({ data, pair, onPair }: Props) {
 
   useEffect(() => {
     const j = jam.current
-    if (!j || !gains) return
+    if (!j) return
+    if (!gains) {
+      j.stop()
+      setPlaying(false)
+      setApplied([])
+      return
+    }
     if (mode === 'B') j.setEq(gains, preamp)
     else j.setEq(OCTAVE_HZ.map(() => 0), 0)
     setApplied(j.appliedGains())
@@ -116,8 +123,9 @@ export function ListenDiff({ data, pair, onPair }: Props) {
           </div>
 
           <div className="card p-5 md:p-7" data-testid="listen" data-playing={playing} data-mode={mode} data-applied={applied.join(',')} data-expected={gains?.join(',') ?? ''}>
+            <CurveStatus {...curveState} />
             <div className="flex flex-wrap items-center gap-3">
-              <button type="button" className="btn-primary min-w-32" onClick={toggle} aria-pressed={playing}>
+              <button type="button" className="btn-primary min-w-32" onClick={toggle} disabled={!gains && !playing} aria-pressed={playing}>
                 {playing ? 'Stop' : 'Putar musik'}
               </button>
               <div role="group" aria-label="Pilih suara" className="inline-flex rounded-full border border-line p-1">

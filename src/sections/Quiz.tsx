@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { CurveChart, formatDb } from '../components/CurveChart'
-import { formatRp, rigLabel, SectionHead, useCurves } from '../components/common'
+import { formatRp, rigLabel, SectionHead, CurveStatus, useCurves } from '../components/common'
 import { productHref } from '../lib/router'
 import { BASS_RANGE, QUIZ, rankByTaste, tasteFromAnswers, tasteOffset, TREBLE_RANGE } from '../lib/taste'
 import type { CoreData } from '../lib/types'
@@ -12,7 +12,8 @@ export function Quiz({ data }: { data: CoreData }) {
   const done = step >= QUIZ.length
   const taste = useMemo(() => tasteFromAnswers(answers.map((a) => a ?? -1)), [answers])
   const rig = data.meta.rigs.find((r) => r.form === taste.form && r.role === 'default')!
-  const curves = useCurves(done ? rig.id : null)
+  const curveState = useCurves(done ? rig.id : null)
+  const { curves } = curveState
   const priceById = useMemo(() => new Map(data.prices.map((p) => [p.id, p])), [data.prices])
 
   const recs = useMemo(() => {
@@ -56,6 +57,7 @@ export function Quiz({ data }: { data: CoreData }) {
           Belum tau mau yang mana? <span className="text-ink-2">Lima pertanyaan, jadi satu kurva selera.</span>
         </SectionHead>
 
+        <p className="mb-5 max-w-2xl text-sm text-ink-2">Pilihan tipe membedakan bentuk in-ear dan over-ear. Hasil belum disaring berdasarkan kabel atau nirkabel.</p>
         {!done ? (
           <form
             className="card max-w-2xl p-5 md:p-8"
@@ -129,6 +131,7 @@ export function Quiz({ data }: { data: CoreData }) {
           <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]" aria-live="polite">
             <div className="card p-5 md:p-7">
               <h3 className="text-xl font-semibold">Kurva selera kamu</h3>
+              <CurveStatus {...curveState} />
               <p className="mt-1 text-sm text-ink-2">
                 Target rig {rigLabel(data, rig.id)}, ditambah bass{' '}
                 <span className="num text-ink">{formatDb(taste.bassDb)}</span> di bawah 150 Hz dan treble{' '}
@@ -146,7 +149,7 @@ export function Quiz({ data }: { data: CoreData }) {
                     height={240}
                   />
                 ) : (
-                  <div className="h-60 animate-pulse rounded-xl bg-surface-2" />
+                  curveState.loading ? <div aria-hidden="true" className="h-60 animate-pulse rounded-xl bg-surface-2" /> : null
                 )}
               </div>
               <p className="mt-4 text-xs leading-relaxed text-ink-2">

@@ -19,6 +19,7 @@ from sklearn.decomposition import PCA
 from sklearn.metrics import silhouette_score
 
 import core
+from catalog import catalog_totals
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
@@ -323,6 +324,7 @@ def main() -> None:
     prices = load_prices(all_products)
     rigs_meta = [r["meta"] for r in results]
     meta = {
+        "schemaVersion": 2,
         "autoeq": {"commit": cfg["autoeq_commit"], "date": cfg["autoeq_date"], "url": "https://github.com/jaakkopasanen/AutoEq"},
         "grid": [round(float(f), 2) for f in grid],
         "bands": [{"key": k, "label": lab, "lo": lo, "hi": hi, "usedForSimilarity": used} for k, lab, lo, hi, used in core.BANDS],
@@ -331,7 +333,7 @@ def main() -> None:
         "scoreZeroDb": core.SCORE_ZERO_DB,
         "clipDb": core.CLIP_DB,
         "rigs": rigs_meta,
-        "totals": {"entries": len(all_products), "models": sum(m["models"] for m in rigs_meta)},
+        "totals": catalog_totals(all_products, {m['id'] for m in rigs_meta}),
         "hasPrices": len(prices) > 0,
     }
     dump = lambda name, obj: (OUT / name).write_text(json.dumps(obj, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
@@ -357,7 +359,7 @@ def main() -> None:
         "",
         f"AutoEq commit `{cfg['autoeq_commit'][:10]}` ({cfg['autoeq_date']}). Grid {len(grid)} log points 20 Hz to 20 kHz.",
         f"Similarity and clustering use 20 Hz to {int(core.SIM_MAX_HZ)} Hz. Level aligned on {int(core.LEVEL_BAND[0])} Hz to {int(core.LEVEL_BAND[1])} Hz. Error clipped to +-{core.CLIP_DB:g} dB before distance, PCA and k-means.",
-        f"Total {meta['totals']['entries']} measurements, {meta['totals']['models']} models (one default variant each).",
+        f"Total {meta['totals']['measurements']} measurements, {meta['totals']['modelRigPairs']} model-rig pairs, {meta['totals']['distinctBaseNames']} distinct base names across rigs (not verified unique physical products).",
         "",
         "| rig | entries | models | with pref score | PCA PC1 | PCA PC2 | k | silhouette | median distance dB | target spread dB |",
         "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",

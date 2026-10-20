@@ -2,6 +2,7 @@ export type BandKey = 'subbass' | 'bass' | 'lowmid' | 'mid' | 'uppermid' | 'treb
 
 export type Bands = Record<BandKey, number>
 
+/** One measurement/variant within one source rig; not a globally unique physical product. */
 export interface Product {
   id: string
   name: string
@@ -51,6 +52,7 @@ export interface BandDef {
 }
 
 export interface Meta {
+  schemaVersion: 2
   autoeq: { commit: string; date: string; url: string }
   grid: number[]
   bands: BandDef[]
@@ -59,7 +61,7 @@ export interface Meta {
   scoreZeroDb: number
   clipDb: number
   rigs: RigMeta[]
-  totals: { entries: number; models: number }
+  totals: { measurements: number; modelRigPairs: number; distinctBaseNames: number }
   hasPrices: boolean
 }
 

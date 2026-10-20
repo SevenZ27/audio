@@ -30,7 +30,7 @@ export function HowItWorks({ data }: { data: CoreData }) {
       </ol>
 
       <p id="rig-table-caption" className="mt-10 mb-3 text-sm text-ink-2">
-        Rig yang dipakai. Total {meta.totals.entries.toLocaleString('id-ID')} hasil ukur dari {meta.totals.models.toLocaleString('id-ID')} model.
+        Rig yang dipakai: {meta.totals.measurements.toLocaleString('id-ID')} hasil pengukuran, {meta.totals.modelRigPairs.toLocaleString('id-ID')} pasangan model–rig, dan {meta.totals.distinctBaseNames.toLocaleString('id-ID')} nama dasar berbeda lintas rig. Model yang diukur pada beberapa rig dihitung pada setiap rig. Nama dasar masih mengikuti normalisasi nama sumber, bukan katalog produk unik yang sudah diverifikasi.
       </p>
       <div className="overflow-x-auto">
         <table aria-describedby="rig-table-caption" className="num w-full min-w-[720px] border-collapse text-left text-sm">
@@ -39,7 +39,7 @@ export function HowItWorks({ data }: { data: CoreData }) {
               <th className="py-2 pr-4 font-medium">Pengukur</th>
               <th className="py-2 pr-4 font-medium">Rig</th>
               <th className="py-2 pr-4 font-medium">Tipe</th>
-              <th className="py-2 pr-4 font-medium">Model</th>
+              <th className="py-2 pr-4 font-medium">Model dalam rig</th>
               <th className="py-2 pr-4 font-medium">PCA (PC1 + PC2)</th>
               <th className="py-2 pr-4 font-medium">k</th>
               <th className="py-2 pr-4 font-medium">Silhouette</th>
